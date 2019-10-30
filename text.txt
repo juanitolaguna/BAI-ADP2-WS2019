@@ -1,1 +1,28 @@
-qwertzuio
+Sort TD:
+
+N: 4 Zugriffe: 42 Theo: 48.0 Ratio: 0.875
+
+N: 8 Zugriffe: 124 Theo: 143.99999999999997 Ratio: 0.8611111111111113
+
+N: 16 Zugriffe: 342 Theo: 384.0 Ratio: 0.890625
+
+N: 32 Zugriffe: 874 Theo: 960.0 Ratio: 0.9104166666666667
+
+N: 64 Zugriffe: 2160 Theo: 2303.9999999999995 Ratio: 0.9375000000000002
+
+N: 128 Zugriffe: 5054 Theo: 5376.0 Ratio: 0.9401041666666666
+
+
+Sort BU:
+
+N: 4 Zugriffe: 42 Theo: 48.0 Ratio: 0.875
+
+N: 8 Zugriffe: 128 Theo: 143.99999999999997 Ratio: 0.8888888888888891
+
+N: 16 Zugriffe: 348 Theo: 384.0 Ratio: 0.90625
+
+N: 32 Zugriffe: 886 Theo: 960.0 Ratio: 0.9229166666666667
+
+N: 64 Zugriffe: 2150 Theo: 2303.9999999999995 Ratio: 0.9331597222222224
+
+N: 128 Zugriffe: 5048 Theo: 5376.0 Ratio: 0.9389880952380952

@@ -47,8 +47,8 @@ class MinHeap {
 
     // pq(123);
 
-    List<Integer> list = Arrays.asList(1, 13, 4, 5, 2, 3, 7, 8, 6, 10, 9, 24, 70, 33);
-    int k = 3;
+    List<Integer> list = Arrays.asList(1, 4, 5, 2, 3, 7, 8, 6, 10, 9);
+    int k = 2;
 
     sort(list, k);
     System.out.println(list);

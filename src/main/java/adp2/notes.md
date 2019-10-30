@@ -6,6 +6,7 @@ insertion sort -> k-near
 - queue einbauen
 
 # 2.5
-
+``
+``
 
 
