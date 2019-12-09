@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 // Data structure for Min Heap
-class MinHeap {
+class KSort {
   // Function to sort a K-Sorted Array
   public static void sort(List<Integer> list, int k) {
     // create an empty min heap and insert first k+1 elements in the heap

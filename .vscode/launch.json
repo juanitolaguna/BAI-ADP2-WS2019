@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CodeLens (Launch) - QuickX",
+      "request": "launch",
+      "mainClass": "adp2.QuickX",
+      "projectName": "BAI-ADP1-WS2019"
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - Exercise_2_2_15",
       "request": "launch",
       "mainClass": "adp2.Exercise_2_2_15",
