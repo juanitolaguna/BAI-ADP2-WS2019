@@ -46,3 +46,7 @@ task performanceTest(type: JavaExec, dependsOn: classes) {
     classpath = sourceSets.main.runtimeClasspath
     systemProperties System.getProperties()
 }
+
+test {
+    useJUnitPlatform ()
+}

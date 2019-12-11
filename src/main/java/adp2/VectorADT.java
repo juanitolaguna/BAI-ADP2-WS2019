@@ -1,284 +1,112 @@
-/******************************************************************************
- *  Compilation:  javac Vector.java
- *  Execution:    java Vector
- *  Dependencies: StdOut.java
- *
- *  Implementation of a vector of real numbers.
- *
- *  This class is implemented to be immutable: once the client program
- *  initialize a Vector, it cannot change any of its fields
- *  (d or data[i]) either directly or indirectly. Immutability is a
- *  very desirable feature of a data type.
- *
- *  % java Vector
- *     x     = [ 1.0 2.0 3.0 4.0 ]
- *     y     = [ 5.0 2.0 4.0 1.0 ]
- *     z     = [ 6.0 4.0 7.0 5.0 ]
- *   10z     = [ 60.0 40.0 70.0 50.0 ]
- *    |x|    = 5.477225575051661
- *   <x, y>  = 25.0
- *
- *
- *  Note that Vector is also the name of an unrelated Java library class
- *  in the package java.util.
- *
- ******************************************************************************/
-
 package adp2;
 
-import algs4.StdOut;
+import java.security.InvalidParameterException;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-/**
- *  The {@code Vector} class represents a <em>d</em>-dimensional Euclidean vector.
- *  Vectors are immutable: their values cannot be changed after they are created.
- *  It includes methods for addition, subtraction,
- *  dot product, scalar product, unit vector, Euclidean norm, and the Euclidean
- *  distance between two vectors.
- *  <p>
- *  For additional documentation,
- *  see <a href="https://algs4.cs.princeton.edu/12oop">Section 1.2</a> of
- *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
- *
- *  @author Robert Sedgewick
- *  @author Kevin Wayne
- */
 public class VectorADT {
 
-    private int d;               // dimension of the vector
-    private double[] data;       // array of vector's components
+    public static final String REGEX = "\\((?<dimension>\\d)\\)\\s\\[(?<values>(\\s*|\\d|,)+)]";
+    public static final String DIMENSION = "dimension";
+    public static final String VALUES = "values";
 
+    private final int[] values;
 
-    /**
-     * Initializes a d-dimensional zero vector.
-     *
-     * @param d the dimension of the vector
-     */
-    public VectorADT(int d) {
-        this.d = d;
-        data = new double[d];
+    public VectorADT(int... values) {
+        this.values = values;
     }
 
     /**
-     * Initializes a vector from either an array or a vararg list.
-     * The vararg syntax supports a constructor that takes a variable number of
-     * arugments such as Vector x = new Vector(1.0, 2.0, 3.0, 4.0).
+     * Returns the euclidean distance from this vector to another.
      *
-     * @param a  the array or vararg list
+     * @param other Other vector to use for the calculation.
+     * @return Euclidean distance between the two vectors.
      */
-    public VectorADT(double... a) {
-        d = a.length;
+    public double euclideanDistanceTo(VectorADT other) {
+        if (this.getDimension() != other.getDimension()) {
+            String message = String.format("Other vector must be of same dimension (%s) but was %s.", this.getDimension(), other.getDimension());
+            throw new InvalidParameterException(message);
+        }
 
-        // defensive copy so that client can't alter our copy of data[]
-        data = new double[d];
-        for (int i = 0; i < d; i++)
-            data[i] = a[i];
+        double term = 0;
+        int[] otherValues = other.getValues();
+        for (int i = 0; i < this.values.length; i++) {
+            term += Math.pow(this.values[i] - otherValues[i], 2);
+        }
+
+        return Math.sqrt(term);
     }
 
     /**
-     * Returns the length of this vector.
+     * Finds m nearest vectors from a list, relative to the instance of this vector.
      *
-     * @return the dimension of this vector
-     * @deprecated Replaced by {@link #dimension()}.
+     * @param all Other vectors to find nearest m in.
+     * @param m   Amount to find.
+     * @return M nearest vectors.
      */
-    @Deprecated
-    public int length() {
-        return d;
+    public List<VectorADT> nearestM(List<VectorADT> all, int m) {
+        return all.stream().sorted(Comparator.comparingDouble(this::euclideanDistanceTo)).limit(m).collect(Collectors.toList());
     }
 
     /**
-     * Returns the dimension of this vector.
+     * Returns the vector's dimension.
      *
-     * @return the dimension of this vector
+     * @return Vector dimension.
      */
-    public int dimension() {
-        return d;
+    public int getDimension() {
+        return this.values.length;
     }
 
-    /**
-     * Returns the dot product of this vector with the specified vector.
-     *
-     * @param  that the other vector
-     * @return the dot product of this vector and that vector
-     * @throws IllegalArgumentException if the dimensions of the two vectors are not equal
-     */
-    public double dot(VectorADT that) {
-        if (this.d != that.d) throw new IllegalArgumentException("Dimensions don't agree");
-        double sum = 0.0;
-        for (int i = 0; i < d; i++)
-            sum = sum + (this.data[i] * that.data[i]);
-        return sum;
+    public int[] getValues() {
+        return this.values;
     }
 
-    /**
-     * Returns the magnitude of this vector.
-     * This is also known as the L2 norm or the Euclidean norm.
-     *
-     * @return the magnitude of this vector
-     */
-    public double magnitude() {
-        return Math.sqrt(this.dot(this));
-    }
-
-    /**
-     * Returns the Euclidean distance between this vector and the specified vector.
-     *
-     * @param  that the other vector
-     * @return the Euclidean distance between this vector and that vector
-     * @throws IllegalArgumentException if the dimensions of the two vectors are not equal
-     */
-    public double distanceTo(VectorADT that) {
-        if (this.d != that.d) throw new IllegalArgumentException("Dimensions don't agree");
-        return this.minus(that).magnitude();
-    }
-
-    /**
-     * Returns the sum of this vector and the specified vector.
-     *
-     * @param  that the vector to add to this vector
-     * @return the vector whose value is {@code (this + that)}
-     * @throws IllegalArgumentException if the dimensions of the two vectors are not equal
-     */
-    public VectorADT plus(VectorADT that) {
-        if (this.d != that.d) throw new IllegalArgumentException("Dimensions don't agree");
-        VectorADT c = new VectorADT(d);
-        for (int i = 0; i < d; i++)
-            c.data[i] = this.data[i] + that.data[i];
-        return c;
-    }
-
-    /**
-     * Returns the difference between this vector and the specified vector.
-     *
-     * @param  that the vector to subtract from this vector
-     * @return the vector whose value is {@code (this - that)}
-     * @throws IllegalArgumentException if the dimensions of the two vectors are not equal
-     */
-    public VectorADT minus(VectorADT that) {
-        if (this.d != that.d) throw new IllegalArgumentException("Dimensions don't agree");
-        VectorADT c = new VectorADT(d);
-        for (int i = 0; i < d; i++)
-            c.data[i] = this.data[i] - that.data[i];
-        return c;
-    }
-
-    /**
-     * Returns the ith cartesian coordinate.
-     *
-     * @param  i the coordinate index
-     * @return the ith cartesian coordinate
-     */
-    public double cartesian(int i) {
-        return data[i];
-    }
-
-    /**
-     * Returns the scalar-vector product of this vector and the specified scalar
-     *
-     * @param  alpha the scalar
-     * @return the vector whose value is {@code (alpha * this)}
-     * @deprecated Replaced by {@link #scale(double)}.
-     */
-    @Deprecated
-    public VectorADT times(double alpha) {
-        VectorADT c = new VectorADT(d);
-        for (int i = 0; i < d; i++)
-            c.data[i] = alpha * data[i];
-        return c;
-    }
-
-    /**
-     * Returns the scalar-vector product of this vector and the specified scalar
-     *
-     * @param  alpha the scalar
-     * @return the vector whose value is {@code (alpha * this)}
-     */
-    public VectorADT scale(double alpha) {
-        VectorADT c = new VectorADT(d);
-        for (int i = 0; i < d; i++)
-            c.data[i] = alpha * data[i];
-        return c;
-    }
-
-    /**
-     * Returns a unit vector in the direction of this vector.
-     *
-     * @return a unit vector in the direction of this vector
-     * @throws ArithmeticException if this vector is the zero vector
-     */
-    public VectorADT direction() {
-        if (this.magnitude() == 0.0) throw new ArithmeticException("Zero-vector has no direction");
-        return this.times(1.0 / this.magnitude());
-    }
-
-
-    /**
-     * Returns a string representation of this vector.
-     *
-     * @return a string representation of this vector, which consists of the
-     *         the vector entries, separates by single spaces
-     */
+    @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < d; i++)
-            s.append(data[i] + " ");
-        return s.toString();
+        String[] values = new String[getDimension()];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = this.values[i] + "";
+        }
+        return "(" + this.getDimension() + ") [ " + String.join(", ", values) + " ]";
     }
 
     /**
-     * Unit tests the {@code Vector} data type.
+     * Parses a Vector from a string.
      *
-     * @param args the command-line arguments
+     * @param string String to parse Vector from.
+     * @return Parsed Vector.
+     * @throws InvalidParameterException If string has invalid pattern.
      */
-    public static void main(String[] args) {
-        VectorADT v1 = new VectorADT(3.0, 3.0 , 3.0);
+    public static VectorADT fromString(String string) throws InvalidParameterException {
+        if (string == null || string.length() == 0) {
+            return null;
+        }
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(string);
 
-        System.out.println(v1.distanceTo(v1));
+        if (!matcher.matches()) {
+            String message = String.format("Invalid string: %s", string);
+            throw new InvalidParameterException(message);
+        }
 
+        int dimension = Integer.parseInt(matcher.group(DIMENSION), 10);
+        int[] values = new int[dimension];
 
+        String valuesLine = matcher.group(VALUES).replaceAll(" ", "");
+        String[] valuesStringArr = valuesLine.split(",");
 
+        if (valuesStringArr.length != dimension) {
+            String message = String.format("Invalid string (invalid dimension): %s", string);
+            throw new InvalidParameterException(message);
+        }
 
-//        double[] xdata = { 1.0, 2.0, 3.0, 4.0 };
-////        double[] ydata = { 5.0, 2.0, 4.0, 1.0 };
-////        VectorADT x = new VectorADT(xdata);
-////        VectorADT y = new VectorADT(ydata);
-////
-////        StdOut.println("   x       = " + x);
-////        StdOut.println("   y       = " + y);
-////
-////        VectorADT z = x.plus(y);
-////        StdOut.println("   z       = " + z);
-////
-////        z = z.times(10.0);
-////        StdOut.println(" 10z       = " + z);
-////
-////        StdOut.println("  |x|      = " + x.magnitude());
-////        StdOut.println(" <x, y>    = " + x.dot(y));
-////        StdOut.println("dist(x, y) = " + x.distanceTo(y));
-////        StdOut.println("dir(x)     = " + x.direction());
+        for (int i = 0; i < valuesStringArr.length; i++) {
+            values[i] = Integer.parseInt(valuesStringArr[i], 10);
+        }
 
+        return new VectorADT(values);
     }
 }
-
-/******************************************************************************
- *  Copyright 2002-2018, Robert Sedgewick and Kevin Wayne.
- *
- *  This file is part of algs4.jar, which accompanies the textbook
- *
- *      Algorithms, 4th edition by Robert Sedgewick and Kevin Wayne,
- *      Addison-Wesley Professional, 2011, ISBN 0-321-57351-X.
- *      http://algs4.cs.princeton.edu
- *
- *
- *  algs4.jar is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  algs4.jar is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with algs4.jar.  If not, see http://www.gnu.org/licenses.
- ******************************************************************************/
