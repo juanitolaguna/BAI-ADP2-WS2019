@@ -110,7 +110,7 @@ public class LinearProbingHashTable<Key, Value> {
     // hash function for keys - returns value between 0 and M-1
     private int hash(Key key) {
         int hashC = (13 * key.hashCode()) % m;
-        System.out.println(hashC);
+        //System.out.println(hashC);
 
         return hashC;
 
@@ -149,6 +149,7 @@ public class LinearProbingHashTable<Key, Value> {
 
  //        double table size if 50% full
         if (n - invalidKeys >= m/2 && resize) {
+            System.out.println(invalidKeys);
             resize(2*m);
             invalidKeys = 0;
         }
@@ -204,22 +205,25 @@ public class LinearProbingHashTable<Key, Value> {
 
         // TODO
         // rehash all keys in same cluster
-        i = (i + 1) % m;
-        while (keys[i] != null) {
-            // delete keys[i] an vals[i] and reinsert
-            Key   keyToRehash = keys[i];
-            Value valToRehash = vals[i];
-            keys[i] = null;
-            vals[i] = null;
-            n--;
-            put(keyToRehash, valToRehash);
-            i = (i + 1) % m;
-        }
+//        i = (i + 1) % m;
+//        while (keys[i] != null) {
+//            // delete keys[i] an vals[i] and reinsert
+//            Key   keyToRehash = keys[i];
+//            Value valToRehash = vals[i];
+//            keys[i] = null;
+//            vals[i] = null;
+//            n--;
+//            put(keyToRehash, valToRehash);
+//            i = (i + 1) % m;
+//        }
 
         n--;
 
+
         // halves size of array if it's 12.5% full or less
-        if (n > 0 && n <= m/8) resize(m/2);
+        if (n - invalidKeys > 0 && n - invalidKeys <= m/8 && resize){
+            resize(m/2);
+        }
 
         assert check();
     }
@@ -261,9 +265,17 @@ public class LinearProbingHashTable<Key, Value> {
 
     @Override
     public String toString() {
-        return "LinearProbingHashTable{" +
-                "keys=" + Arrays.toString(keys) +
-                '}';
+
+        String string = "[";
+        for (int i = 0; i < keys.length - 1; i++) {
+            string += " (k: " + keys[i] + ", v: " + vals[i] + ")";
+        }
+
+        string += "]";
+
+
+         return string;
+
     }
 
     /**
@@ -272,13 +284,31 @@ public class LinearProbingHashTable<Key, Value> {
      * @param args the command-line arguments
      */
     public static void main(String[] args) { 
-        LinearProbingHashTable<Character, Integer> st = new LinearProbingHashTable<>();
+//        LinearProbingHashTable<Character, Integer> st = new LinearProbingHashTable<>();
+//
+//        Character[] charList = new Character[]{'V', 'E', 'R', 'Y', 'I', 'M', 'P', 'O', 'R', 'T', 'A', 'N', 'T', 'P', 'E', 'R', 'S', 'O', 'N'};
+//        for (int i = 0; i < charList.length; i++) {
+//            st.put(charList[i], i);
+//
+//        }
 
-        Character[] charList = new Character[]{'V', 'E', 'R', 'Y', 'I', 'M', 'P', 'O', 'R', 'T', 'A', 'N', 'T', 'P', 'E', 'R', 'S', 'O', 'N'};
-        for (int i = 0; i < charList.length; i++) {
-            st.put(charList[i], i);
 
+
+        Character[] charList2 = new Character[]{'V', 'E', 'R', 'Y', 'I', 'M', 'P', 'O', 'R', 'T', 'A', 'N', 'T', 'P', 'E', 'R', 'S', 'O', 'N'};
+        LinearProbingHashTable<Character, Integer> st2 = new LinearProbingHashTable<>(charList2.length, true);
+        for (int i = 0; i < charList2.length; i++) {
+            st2.put(charList2[i], i);
         }
+
+
+        for (int i = 0; i < charList2.length; i++) {
+            st2.delete(charList2[i]);
+        }
+
+
+
+        System.out.println("after delete: ");
+        System.out.println(st2);
 
 
     }
