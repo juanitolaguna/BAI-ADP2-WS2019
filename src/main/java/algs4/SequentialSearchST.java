@@ -192,6 +192,18 @@ public class SequentialSearchST<Key, Value> {
         return queue;
     }
 
+    @Override
+    public String toString() {
+        String s = "";
+        for (Node x = first; x != null; x = x.next){
+            s += x.key + " ";
+        }
+        return s;
+    }
+
+    public Node getFirst() {
+        return first;
+    }
 
     /**
      * Unit tests the {@code SequentialSearchST} data type.
