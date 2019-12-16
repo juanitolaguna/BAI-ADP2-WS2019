@@ -51,13 +51,15 @@ public class LinearProbingHashTable<Key, Value> {
     private int m;           // size of linear probing table
     private Key[] keys;      // the keys
     private Value[] vals;    // the values
+    private boolean resize;
+    private int invalidKeys = 0;
 
 
     /**
      * Initializes an empty symbol table.
      */
     public LinearProbingHashTable() {
-        this(INIT_CAPACITY);
+        this(INIT_CAPACITY, false);
     }
 
     /**
@@ -65,7 +67,8 @@ public class LinearProbingHashTable<Key, Value> {
      *
      * @param capacity the initial capacity
      */
-    public LinearProbingHashTable(int capacity) {
+    public LinearProbingHashTable(int capacity, boolean resize) {
+        this.resize = resize;
         m = capacity;
         n = 0;
         keys = (Key[])   new Object[m];
@@ -115,9 +118,9 @@ public class LinearProbingHashTable<Key, Value> {
 
     // resizes the hash table to the given capacity by re-hashing all of the keys
     private void resize(int capacity) {
-        LinearProbingHashTable<Key, Value> temp = new LinearProbingHashTable<Key, Value>(capacity);
+        LinearProbingHashTable<Key, Value> temp = new LinearProbingHashTable<Key, Value>(capacity, true);
         for (int i = 0; i < m; i++) {
-            if (keys[i] != null) {
+            if (keys[i] != null && vals[i] != null) {
                 temp.put(keys[i], vals[i]);
             }
         }
@@ -144,8 +147,11 @@ public class LinearProbingHashTable<Key, Value> {
             return;
         }
 
-        // double table size if 50% full
-//        if (n >= m/2) resize(2*m);
+ //        double table size if 50% full
+        if (n - invalidKeys >= m/2 && resize) {
+            resize(2*m);
+            invalidKeys = 0;
+        }
 
         int i;
         for (i = hash(key); keys[i] != null; i = (i + 1) % m) {
@@ -193,9 +199,10 @@ public class LinearProbingHashTable<Key, Value> {
         }
 
         // delete key and associated value
-        keys[i] = null;
+        //keys[i] = null;
         vals[i] = null;
 
+        // TODO
         // rehash all keys in same cluster
         i = (i + 1) % m;
         while (keys[i] != null) {
