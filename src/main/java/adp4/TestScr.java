@@ -7,7 +7,19 @@ public class TestScr {
     private Character letter;
 
     public static int hashM(Character letter) {
-        return (1 * letter.hashCode() % (23));
+        return (1 * letter.hashCode() % (22));
+    }
+
+    public static int hash(String s) {
+        int hash = 0;
+        for (int i = 0; i < s.length(); i++) {
+            hash = (hash * 31) + s.charAt(i);
+        }
+        return hash;
+    }
+
+    public static boolean compareString(String one, String two) {
+        return true;
     }
 
     public static void main(String[] args) {
@@ -16,5 +28,9 @@ public class TestScr {
             System.out.println(charList[i] + " " + charList[i].hashCode() + " -> " + hashM(charList[i]));
             //System.out.println(hashM(charList[i]));
         }
+
+        String one = "AaAa";
+        String two = "BBBB";
+        System.out.println(hash(one) == hash(two));
     }
 }
