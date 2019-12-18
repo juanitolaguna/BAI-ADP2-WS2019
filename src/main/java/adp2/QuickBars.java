@@ -62,7 +62,6 @@ public class QuickBars {
     }
 
     public static void sort(double[] a, Median median) {
-        // StdRandom.shuffle(a);
         show(a, 0, 0, -1, a.length - 1);
         sort(a, 0, a.length - 1, median);
         show(a, 0, 0, -1, a.length - 1);
@@ -154,6 +153,7 @@ public class QuickBars {
         double[] b = new double[n];
         for (int i = 0; i < n; i++) {
             a[i] = (1 + StdRandom.uniform(m)) / (double) m;
+            System.out.println(a[i]);
             b[i] = a[i];
         }
 
@@ -165,6 +165,8 @@ public class QuickBars {
         rows = row;
         row = 0;
         StdDraw.clear();
+
+        System.out.println(rows);
 
         StdDraw.setCanvasSize(800, rows * VERTICAL);
         StdDraw.show();

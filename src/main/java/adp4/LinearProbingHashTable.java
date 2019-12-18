@@ -268,7 +268,8 @@ public class LinearProbingHashTable<Key, Value> {
 
         String string = "[";
         for (int i = 0; i < keys.length - 1; i++) {
-            string += " (k: " + keys[i] + ", v: " + vals[i] + ")";
+            //string += " (k: " + keys[i] + ", v: " + vals[i] + ")";
+            string += vals[i] + "|" + keys[i] + ", ";
         }
 
         string += "]";
@@ -291,6 +292,7 @@ public class LinearProbingHashTable<Key, Value> {
 //            st.put(charList[i], i);
 //
 //        }
+//        System.out.println(st);
 
 
 
@@ -300,10 +302,12 @@ public class LinearProbingHashTable<Key, Value> {
             st2.put(charList2[i], i);
         }
 
+        st2.delete('V');
 
-        for (int i = 0; i < charList2.length; i++) {
-            st2.delete(charList2[i]);
-        }
+
+//        for (int i = 0; i < charList2.length; i++) {
+//            st2.delete(charList2[i]);
+//        }
 
 
 

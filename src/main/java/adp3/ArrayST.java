@@ -1,11 +1,12 @@
 package adp3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ArrayST<Key extends Comparable<Key>, Value> {
 
-    private static final int SIZE = 1024;
+    private static final int SIZE = 10;
 
     private final Object[] keys;
     private final Object[] values;
@@ -103,6 +104,31 @@ public class ArrayST<Key extends Comparable<Key>, Value> {
         this.keys[0] = key;
         this.values[0] = value;
         return value;
+    }
+
+    @Override
+    public String toString() {
+        String s = "[";
+        for (int j = 0; j < keys.length; j++) {
+            s += keys[j] + ", ";
+        }
+        s += "]";
+        return s;
+    }
+
+    public static void main(String[] args) {
+        ArrayST<Integer, Integer> st = new ArrayST<>();
+        for (int i = 0; i < 10; i++) {
+            st.put(i, i);
+        }
+
+        System.out.println(st);
+        st.get(6);
+        System.out.println(st);
+        st.get(9);
+        st.get(9);
+        st.get(6);
+        System.out.println(st);
     }
 
 

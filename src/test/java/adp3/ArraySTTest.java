@@ -19,6 +19,9 @@ class ArraySTTest {
         a.put(2, -1);
         assertEquals((Integer) 1, a.get(1));
         assertEquals((Integer) (-1), a.get(2));
+        System.out.println(
+
+        );
     }
 
     @Test

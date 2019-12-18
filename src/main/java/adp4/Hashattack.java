@@ -47,8 +47,8 @@ public class Hashattack {
             StdOut.println(string);
         }
 
-        hashAttackInput.add("Fehler");
-        hashAttackInput.add("Noch ein Fehler");
+//        hashAttackInput.add("Fehler");
+//        hashAttackInput.add("Noch ein Fehler");
 
 
         String first = hashAttackInput.get(0);

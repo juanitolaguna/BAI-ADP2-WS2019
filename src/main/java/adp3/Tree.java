@@ -561,4 +561,8 @@ public class Tree<Key extends Comparable<Key>, Value> {
             this.size = size;
         }
     }
+
+    public static void main(String[] args) {
+
+    }
 }

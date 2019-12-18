@@ -24,6 +24,8 @@ class TreeTest {
         tree.put("M", 7);
         tree.put("P", 4);
         tree.put("L", 5);
+
+
     }
 
     @Test
@@ -50,6 +52,7 @@ class TreeTest {
         bst.put("L", 5);
         Tree<String, Integer> bstree = new Tree<>(bst);
         assertTrue(bstree.isOrdered("A", "X"));
+        System.out.println(tree);
     }
 
     @Test
@@ -71,6 +74,8 @@ class TreeTest {
     @Test
     void zChangeKey() {
         tree.changeKey("H", "S");
+        System.out.println(tree);
         assertFalse(tree.isOrdered("A", "X"));
+
     }
 }
