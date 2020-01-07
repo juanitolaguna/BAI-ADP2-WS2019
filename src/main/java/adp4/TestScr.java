@@ -40,14 +40,16 @@ public class TestScr {
 //            //System.out.println(hashM(charList[i]));
 //        }
 //
-//        String one = "AaAa";
+        String one = "AaAa";
 //        String two = "BBBB";
 //        System.out.println(hash(one) == hash(two));
+        String three = one.substring(1);
 
         int[] arry1 = {1, 3, 2, 2, 1};
         int[] arry2 = {1, 1, 3, 2, 2};
         System.out.println(hash(arry1));
         System.out.println(hash(arry2));
         System.out.println((2428 % 997));
+        System.out.println(three);
     }
 }

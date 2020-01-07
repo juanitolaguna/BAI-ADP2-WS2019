@@ -87,8 +87,9 @@ public class RabinKarp {
     // Compute hash for key[0..m-1]. 
     private long hash(String key, int m) { 
         long h = 0; 
-        for (int j = 0; j < m; j++) 
+        for (int j = 0; j < m; j++)
             h = (R * h + key.charAt(j)) % q;
+
         return h;
     }
 
@@ -116,7 +117,7 @@ public class RabinKarp {
     public int search(String txt) {
         int n = txt.length(); 
         if (n < m) return n;
-        long txtHash = hash(txt, m); 
+        long txtHash = hash(txt, m);
 
         // check for match at offset 0
         if ((patHash == txtHash) && check(txt, 0))
@@ -126,7 +127,9 @@ public class RabinKarp {
         for (int i = m; i < n; i++) {
             // Remove leading digit, add trailing digit, check for match. 
             txtHash = (txtHash + q - RM*txt.charAt(i-m) % q) % q; 
-            txtHash = (txtHash*R + txt.charAt(i)) % q; 
+            txtHash = (txtHash*R + txt.charAt(i)) % q;
+            System.out.println(txtHash);
+            //System.out.println(patHash);
 
             // match
             int offset = i - m + 1;
@@ -142,7 +145,7 @@ public class RabinKarp {
     // a random 31-bit prime
     private static long longRandomPrime() {
         BigInteger prime = BigInteger.probablePrime(31, new Random());
-        return prime.longValue();
+        return 997; //prime.longValue();
     }
 
     /** 

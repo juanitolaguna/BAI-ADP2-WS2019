@@ -121,7 +121,7 @@ public class BinarySearchMultiST<Key extends Comparable<Key>, Value> {
 
     public Iterable<Value> getAll(Key key){
         if (key == null) throw new IllegalArgumentException("argument to get() is null");
-        if (isEmpty()) return null;
+        if (isEmpty()) return new ArrayList<>();
 
         List<Value> values = new ArrayList<>();
         int i = rank(key);
