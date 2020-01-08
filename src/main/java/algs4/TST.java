@@ -126,6 +126,8 @@ public class TST<Value> {
         else                           return x;
     }
 
+
+
     /**
      * Inserts the key-value pair into the symbol table, overwriting the old value
      * with the new value if the key is already in the symbol table.
@@ -264,9 +266,10 @@ public class TST<Value> {
 
         // build symbol table from standard input
         TST<Integer> st = new TST<Integer>();
-        for (int i = 0; !StdIn.isEmpty(); i++) {
-            String key = StdIn.readString();
-            st.put(key, i);
+        String input = "";
+        for (int i = 0; !input.equals("exit"); i++) {
+            input = StdIn.readString();
+            st.put(input, i);
         }
 
         // print results
@@ -286,8 +289,8 @@ public class TST<Value> {
         StdOut.println(st.longestPrefixOf("shell"));
         StdOut.println();
 
-        StdOut.println("keysWithPrefix(\"shor\"):");
-        for (String s : st.keysWithPrefix("shor"))
+        StdOut.println("keysWithPrefix(\"she\"):");
+        for (String s : st.keysWithPrefix("she"))
             StdOut.println(s);
         StdOut.println();
 
