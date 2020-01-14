@@ -53,34 +53,31 @@ public class BinarySearchMultiST<Key extends Comparable<Key>, Value> {
             st.put(key, index++);
         }
 
-        System.out.println(st);
-        System.out.println("size: " + st.size());
+        System.out.println("ST after put(): " + st);
         System.out.println("rank(A) => " + st.rank("A"));
         System.out.println("rank(B) => " + st.rank("B"));
         System.out.println("rank(E) => " + st.rank("E"));
         System.out.println("rank(G) => " + st.rank("G"));
         System.out.println("rank(H) => " + st.rank("H"));
 
-//        [ A 0 ] [ B 10 ] [ E 6 ] [ E 5 ] [ E 4 ] [ E 3 ] [ E 2 ] [ E 1 ] [ G 7 ] [ H 9 ] [ H 8 ]
+        System.out.println("st.getAll(E)" + st.getAll("E"));
+        System.out.println("st.getAll(H)" + st.getAll("H"));
 
         String keysInST = "";
         for (String k : st.keys()) {
             keysInST += k + ":[" + st.get(k) + "]  ";
         }
-        System.out.println("All keys in ST with getFirst: " + keysInST);
-//        st.delete("E");
-//        System.out.println("ST: " + st);
+        System.out.println("Iterate with keys" + keysInST);
 
-//
-//        System.out.println("st.getAll(E)" + st.getAll("E"));
-//        System.out.println("st.getAll(H)" + st.getAll("H"));
-//        System.out.println("st.get(E)" + st.get("E"));
 
+        System.out.println("Delete Keys:");
+        System.out.println("Before: " + st);
+        System.out.println("size: " + st.size());
         st.delete("E");
-        System.out.println(st);
+        System.out.println("After E deleted: " + st);
         System.out.println("size: " + st.size());
         st.delete("H");
-        System.out.println(st);
+        System.out.println("After H deleted:" + st);
         System.out.println("size: " + st.size());
 
 
@@ -172,28 +169,18 @@ public class BinarySearchMultiST<Key extends Comparable<Key>, Value> {
     public int rank(Key key) {
         if (key == null) throw new IllegalArgumentException("argument to rank() is null");
 
-        System.out.println("Key: " + key);
-
         int lo = 0, hi = n - 1;
         while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            //int mid = lo + (hi - lo) / 2;
 
-            System.out.println(lo + " + (" + hi + " - " + lo + ") = " + (lo + (hi - lo)));
-            System.out.println(lo + " + (" + hi + " - " + lo + ") / 2 = " + mid);
-            System.out.println(hi + " / 2 = " + (hi / 2));
             int cmp = key.compareTo(keys[mid]);
-            System.out.println(key + ".compareTo(" + keys[mid] + ") => " + cmp);
             if (cmp < 0) {
                 hi = mid - 1;
-                System.out.println("hi: " + hi);
             } else if (cmp > 0) {
                 lo = mid + 1;
-                System.out.println("lo: " + lo);
             }
             // If compare == 0 (key found -> skip)
             else {
-                System.out.println("mid: " + mid);
 
                 while (--mid > 0 && key.compareTo(keys[mid]) == 0) {
                 }
@@ -222,13 +209,7 @@ public class BinarySearchMultiST<Key extends Comparable<Key>, Value> {
         }
 
         int i = rank(key);
-//        System.out.println("Key: " + key + " Rank: " + i);
 
-        // key is already in table
-//        if (i < n && keys[i].compareTo(key) == 0) {
-//            vals[i] = val;
-//            return;
-//        }
 
         // insert new key-value pair
         if (n == keys.length) {
@@ -267,7 +248,6 @@ public class BinarySearchMultiST<Key extends Comparable<Key>, Value> {
         while (k != n && keys[k] != null && key.compareTo(keys[k++]) == 0) {
             countSameKeys++;
         }
-//        System.out.println("Same keys: " + countSameKeys);
 
 
         // key not in table
@@ -478,9 +458,9 @@ public class BinarySearchMultiST<Key extends Comparable<Key>, Value> {
         String content = "";
         for (int i = 0; i < keys.length; i++) {
 
-            //if (keys[i] != null) {
+            if (keys[i] != null) {
             content += "[ " + keys[i] + " " + vals[i] + " ] ";
-            //}
+            }
         }
         return content;
     }
