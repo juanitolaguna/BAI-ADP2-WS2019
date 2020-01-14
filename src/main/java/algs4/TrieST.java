@@ -117,7 +117,9 @@ public class TrieST<Value> {
     private Node put(Node x, String key, Value val, int d) {
         if (x == null) x = new Node();
         if (d == key.length()) {
-            if (x.val == null) n++;
+            if (x.val == null){
+                n++;
+            }
             x.val = val;
             return x;
         }

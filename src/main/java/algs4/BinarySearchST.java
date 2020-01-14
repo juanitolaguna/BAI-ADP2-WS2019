@@ -156,7 +156,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
         int lo = 0, hi = n-1; 
         while (lo <= hi) { 
-            int mid = lo + (hi - lo) / 2; 
+            int mid = lo + (hi - lo) / 2;
             int cmp = key.compareTo(keys[mid]);
             if      (cmp < 0) hi = mid - 1; 
             else if (cmp > 0) lo = mid + 1; 
@@ -194,7 +194,9 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         }
 
         // insert new key-value pair
-        if (n == keys.length) resize(2*keys.length);
+        if (n == keys.length) {
+            resize(2*keys.length);
+        }
 
         for (int j = n; j > i; j--)  {
             keys[j] = keys[j-1];

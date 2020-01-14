@@ -23,14 +23,13 @@ public class SimilarDocs {
 
     public static void main(String[] args) {
         SimilarDocs sd = new SimilarDocs("./docs/");
-        int[] trigramm = sd.getTrigrammTree().get("Lor");
 
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < trigramm.length; i++) {
-            output.append(" " + trigramm[i]);
-        }
-        System.out.println(output);
-
+//        int[] trigramm = sd.getTrigrammTree().get("Lor");
+//        StringBuilder output = new StringBuilder();
+//        for (int i = 0; i < trigramm.length; i++) {
+//            output.append(" " + trigramm[i]);
+//        }
+//        System.out.println(output);
 
         sd.euclideanDistanceBetweenAll();
     }
